@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/hourly_forecast.dart';
+
 
 class WeatherScreen extends StatelessWidget {
   const WeatherScreen({super.key});
@@ -56,12 +58,12 @@ class WeatherScreen extends StatelessWidget {
               height: 20,
             ),
             //weather forecast
+            const Text(
+              'Weather Forecast',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
             const Column(
               children: [
-                Text(
-                  'Weather Forecast',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
@@ -76,20 +78,75 @@ class WeatherScreen extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             //additional information
-            SingleChildScrollView(
-              child: SizedBox(
-                child: Column(
+            const Text(
+              'Additional Information',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Column(
                   children: [
-                    Icon(Icons.water_drop_rounded),
-                    Text('Humidity'),
-                    Text('94')
+                    Icon(
+                      Icons.water_drop_rounded,
+                      size: 40,
+                    ),
+                    Text('Humidity',
+                        style: TextStyle(
+                          fontSize: 20,
+                        )),
+                    Text('94',
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ))
                   ],
                 ),
-              ),
+                SizedBox(
+                  width: 20,
+                ),
+                Column(
+                  children: [
+                    Icon(
+                      Icons.air,
+                      size: 50,
+                    ),
+                    Text('Wind Speed',
+                        style: TextStyle(
+                          fontSize: 20,
+                        )),
+                    Text('76.7',
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ))
+                  ],
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                Column(
+                  children: [
+                    Icon(
+                      Icons.align_horizontal_right_sharp,
+                      size: 40,
+                    ),
+                    Text('Pressure',
+                        style: TextStyle(
+                          fontSize: 20,
+                        )),
+                    Text('1006',
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ))
+                  ],
+                )
+              ],
             )
           ],
         ),
@@ -98,41 +155,4 @@ class WeatherScreen extends StatelessWidget {
   }
 }
 
-class HourlyForecast extends StatelessWidget {
-  const HourlyForecast({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 130,
-      child: Card(
-        elevation: 5,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        child: const Padding(
-          padding: EdgeInsets.all(20.0),
-          child: Column(children: [
-            Text('09:10',
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                )),
-            SizedBox(
-              height: 8,
-            ),
-            Icon(
-              Icons.cloud,
-              size: 30,
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            Text(
-              '30.17',
-              style: TextStyle(fontSize: 25),
-            )
-          ]),
-        ),
-      ),
-    );
-  }
-}
