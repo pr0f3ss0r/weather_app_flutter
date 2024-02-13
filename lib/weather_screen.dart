@@ -15,6 +15,7 @@ class WeatherScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             //main card
             SizedBox(
@@ -51,21 +52,85 @@ class WeatherScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             //weather forecast
-            Placeholder(
-              fallbackHeight: 180,
+            const Column(
+              children: [
+                Text(
+                  'Weather Forecast',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      HourlyForecast(),
+                      HourlyForecast(),
+                      HourlyForecast(),
+                      HourlyForecast(),
+                      HourlyForecast(),
+                    ],
+                  ),
+                )
+              ],
             ),
             SizedBox(
               height: 20,
             ),
             //additional information
-            Placeholder(
-              fallbackHeight: 120,
+            SingleChildScrollView(
+              child: SizedBox(
+                child: Column(
+                  children: [
+                    Icon(Icons.water_drop_rounded),
+                    Text('Humidity'),
+                    Text('94')
+                  ],
+                ),
+              ),
             )
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class HourlyForecast extends StatelessWidget {
+  const HourlyForecast({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 130,
+      child: Card(
+        elevation: 5,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: const Padding(
+          padding: EdgeInsets.all(20.0),
+          child: Column(children: [
+            Text('09:10',
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                )),
+            SizedBox(
+              height: 8,
+            ),
+            Icon(
+              Icons.cloud,
+              size: 30,
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Text(
+              '30.17',
+              style: TextStyle(fontSize: 25),
+            )
+          ]),
         ),
       ),
     );
