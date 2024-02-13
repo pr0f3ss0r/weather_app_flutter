@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:weather_app/additional_info.dart';
 import 'package:weather_app/hourly_forecast.dart';
 
-
-
 class WeatherScreen extends StatelessWidget {
   const WeatherScreen({super.key});
 
@@ -88,13 +86,22 @@ class WeatherScreen extends StatelessWidget {
               'Additional Information',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            AdditionalInfo()
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                AdditionalInfo(
+                    icon: Icons.water_drop_rounded,
+                    info: 'Humidity',
+                    value: '94'),
+                AdditionalInfo(
+                    icon: Icons.air, info: 'Wind Speed', value: '76.9'),
+                AdditionalInfo(
+                    icon: Icons.beach_access, info: 'Pressure', value: '1006'),
+              ],
+            ),
           ],
         ),
       ),
     );
   }
 }
-
-
-
