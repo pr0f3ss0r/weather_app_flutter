@@ -23,7 +23,7 @@ class AdditionalInfo extends StatelessWidget {
             style: const TextStyle(
               fontSize: 20,
             )),
-        Text(value,
+        Text(value.toString(),
             style: const TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.bold,

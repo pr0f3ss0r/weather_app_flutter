@@ -15,6 +15,10 @@ class WeatherScreen extends StatefulWidget {
 
 class _WeatherScreenState extends State<WeatherScreen> {
   double temp = 0;
+  int humidity = 0;
+  int pressure = 0;
+  double windSpeed = 0;
+  String condition = '';
 
   @override
   // void initState() {
@@ -22,17 +26,16 @@ class _WeatherScreenState extends State<WeatherScreen> {
   //   getCurrentWeather();
   // }
 
-  Future getCurrentWeather() async {
+  Future<Map<String, dynamic>> getCurrentWeather() async {
     try {
-      String cityName = 'London';
+      String cityName = 'Ilorin';
       final res = await http.get(Uri.parse(
-          'https://api.openweathermap.org/data/2.5/forecast?q=$cityName&APPID=$openWeatherAPIKey'));
+          'https://api.openweathermap.org/data/2.5/forecast?q=$cityName&units=metric&APPID=2e88917180f32c12cf529dd257e972b3'));
       final data = jsonDecode(res.body);
       if (data['cod'] != '200') {
         throw 'unexpected error';
       }
       return data;
-      //temp = (data['list'][0]['main']['temp']);
     } catch (e) {
       throw e.toString();
     }
@@ -50,6 +53,13 @@ class _WeatherScreenState extends State<WeatherScreen> {
       body: FutureBuilder(
         future: getCurrentWeather(),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          final data = snapshot.data!;
+          temp = (data['list'][0]['main']['temp']);
+          condition = (data['list'][0]['weather'][0]['main']);
+          humidity = (data['list'][0]['main']['humidity']);
+          pressure = (data['list'][0]['main']['pressure']);
+          windSpeed = (data['list'][0]['wind']['speed']);
+          
           return Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(
@@ -68,12 +78,15 @@ class _WeatherScreenState extends State<WeatherScreen> {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           return const Center(
-                              child: CircularProgressIndicator());
+                              child: CircularProgressIndicator.adaptive());
+                        }
+                        if (snapshot.hasError) {
+                          return Text(snapshot.error.toString());
                         }
                         return Column(
                           children: [
                             Text(
-                              '200 K',
+                              '$temp\u2103',
                               style: const TextStyle(
                                   fontSize: 40, fontWeight: FontWeight.bold),
                             ),
@@ -87,9 +100,9 @@ class _WeatherScreenState extends State<WeatherScreen> {
                             const SizedBox(
                               height: 16,
                             ),
-                            const Text(
-                              'Rain',
-                              style: TextStyle(fontSize: 30),
+                            Text(
+                              condition,
+                              style: const TextStyle(fontSize: 30),
                             )
                           ],
                         );
@@ -134,19 +147,21 @@ class _WeatherScreenState extends State<WeatherScreen> {
                   'Additional Information',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     AdditionalInfo(
                         icon: Icons.water_drop_rounded,
                         info: 'Humidity',
-                        value: '94'),
+                        value: (humidity.toString())),
                     AdditionalInfo(
-                        icon: Icons.air, info: 'Wind Speed', value: '76.9'),
+                        icon: Icons.air,
+                        info: 'Wind Speed',
+                        value: windSpeed.toString()),
                     AdditionalInfo(
                         icon: Icons.beach_access,
                         info: 'Pressure',
-                        value: '1006'),
+                        value: pressure.toString()),
                   ],
                 ),
               ],
