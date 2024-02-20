@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:weather_app/additional_info.dart';
 import 'package:weather_app/hourly_forecast.dart';
@@ -127,10 +128,12 @@ class _WeatherScreenState extends State<WeatherScreen> {
                       scrollDirection: Axis.horizontal,
                       itemCount: 5,
                       itemBuilder: (context, index) {
-                        String timeStampNow =
+                        String timeStamp =
                             (data['list'][index]['dt_txt']).toString();
+                        String timeStampNow = formatDate(
+                            DateTime.parse(timeStamp), [HH, ':', nn]);
                         return HourlyForecast(
-                            time: DateTime.parse(timeStampNow).toString(),
+                            time: timeStampNow,
                             icon: condition == 'Clear'
                                 ? Icons.sunny
                                 : Icons.cloud,
