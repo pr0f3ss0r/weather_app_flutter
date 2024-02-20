@@ -20,7 +20,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
   double windSpeed = 0;
   String condition = '';
 
-  @override
+  //@override
   // void initState() {
   //   super.initState();
   //   getCurrentWeather();
@@ -59,7 +59,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
           humidity = (data['list'][0]['main']['humidity']);
           pressure = (data['list'][0]['main']['pressure']);
           windSpeed = (data['list'][0]['wind']['speed']);
-          
+
           return Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(
@@ -93,8 +93,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
                             const SizedBox(
                               height: 16,
                             ),
-                            const Icon(
-                              Icons.cloud,
+                            Icon(
+                              condition == 'Clear' ? Icons.sunny : Icons.cloud,
                               size: 50,
                             ),
                             const SizedBox(
@@ -118,27 +118,41 @@ class _WeatherScreenState extends State<WeatherScreen> {
                   'Weather Forecast',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
-                const Column(
-                  children: [
-                    SingleChildScrollView(
+                //ListView Builder is used to replace SingleChildScrollView
+                //for performance reasons. It only build the UI in view not
+                // all the UIs at once.
+                SizedBox(
+                  height: 151,
+                  child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          HourlyForecast(
-                              time: '06:33', icon: Icons.cloud, temp: '14.67'),
-                          HourlyForecast(
-                              time: '09:43', icon: Icons.foggy, temp: '14.42'),
-                          HourlyForecast(
-                              time: '17:10', icon: Icons.sunny, temp: '34.29'),
-                          HourlyForecast(
-                              time: '03:35', icon: Icons.cloud, temp: '12.12'),
-                          HourlyForecast(
-                              time: '13:10', icon: Icons.sunny, temp: '44.22'),
-                        ],
-                      ),
-                    )
-                  ],
+                      itemCount: 5,
+                      itemBuilder: (context, index) {
+                        String timeStampNow =
+                            (data['list'][index]['dt_txt']).toString();
+                        return HourlyForecast(
+                            time: DateTime.parse(timeStampNow).toString(),
+                            icon: condition == 'Clear'
+                                ? Icons.sunny
+                                : Icons.cloud,
+                            temp: (data['list'][index]['main']['temp'])
+                                .toString());
+                      }),
                 ),
+                // SingleChildScrollView(
+                //   scrollDirection: Axis.horizontal,
+                //   child: Row(
+                //     children: [
+                //       for (int i = 0; i < 5; i++)
+                //         HourlyForecast(
+                //             time: (data['list'][i + 1]['dt']).toString(),
+                //             icon: condition == 'Clear'
+                //                 ? Icons.sunny
+                //                 : Icons.cloud,
+                //             temp: (data['list'][i + 1]['main']['temp'])
+                //                 .toString())
+                //     ],
+                //   ),
+                // )
                 const SizedBox(
                   height: 20,
                 ),

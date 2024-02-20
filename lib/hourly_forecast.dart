@@ -18,8 +18,10 @@ class HourlyForecast extends StatelessWidget {
           padding: const EdgeInsets.all(20.0),
           child: Column(children: [
             Text(time,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
-                  fontSize: 25,
+                  fontSize: 15,
                   fontWeight: FontWeight.bold,
                 )),
             const SizedBox(
